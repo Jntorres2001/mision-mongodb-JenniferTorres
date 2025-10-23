@@ -1,0 +1,13 @@
+use("bestiario");
+
+// Añadir una habilidad nueva al Dragón de Fuego
+db.criaturas.updateOne(
+  { nombre: "Dragón de Fuego" },
+  { $push: { habilidades: "visión térmica" } }
+);
+
+// Incrementar el nivel de peligro de todas las criaturas del "Bosque Encantado"
+db.criaturas.updateMany(
+  { habitat: "Bosque Encantado" },
+  { $inc: { nivel_peligro: 1 } }
+);

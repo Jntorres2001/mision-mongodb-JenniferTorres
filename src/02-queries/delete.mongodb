@@ -1,0 +1,7 @@
+use("bestiario");
+
+// Eliminar una criatura específica
+db.criaturas.deleteOne({ nombre: "Gólem de Piedra" });
+
+// O eliminar todas las criaturas de un hábitat
+db.criaturas.deleteMany({ habitat: "Océano Profundo" });

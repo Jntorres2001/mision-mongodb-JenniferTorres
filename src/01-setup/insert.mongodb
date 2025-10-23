@@ -1,0 +1,41 @@
+use("bestiario");
+
+db.criaturas.insertMany([
+  {
+    nombre: "Dragón de Fuego",
+    habitat: "Montañas Volcánicas",
+    nivel_peligro: 10,
+    dieta: ["rocas", "caballeros"],
+    habilidades: ["vuelo", "aliento de fuego", "garras afiladas"],
+    descubierto_por: "Eldrin el Valiente"
+  },
+  {
+    nombre: "Ninfa del Bosque",
+    habitat: "Bosque Encantado",
+    nivel_peligro: 4,
+    habilidades: ["camuflaje", "control de plantas"],
+    descubierto_por: "Lyra la Soñadora"
+  },
+  {
+    nombre: "Kraken Marino",
+    habitat: "Océano Profundo",
+    nivel_peligro: 9,
+    dieta: ["peces", "barcos"],
+    habilidades: ["tentáculos gigantes", "torbellino acuático"],
+    descubierto_por: "Capitán Nemos"
+  },
+  {
+    nombre: "Gólem de Piedra",
+    habitat: "Cuevas Antiguas",
+    nivel_peligro: 7,
+    habilidades: ["fuerza bruta", "resistencia"],
+    descubierto_por: "Arden el Sabio"
+  },
+  {
+    nombre: "Fénix Dorado",
+    habitat: "Cielos Sagrados",
+    nivel_peligro: 8,
+    habilidades: ["renacer", "fuego purificador"],
+    descubierto_por: "Selene la Guardiana"
+  }
+]);

@@ -1,0 +1,10 @@
+use("bestiario");
+
+// Mostrar todas las criaturas
+db.criaturas.find();
+
+// Criaturas del Bosque Encantado
+db.criaturas.find({ habitat: "Bosque Encantado" });
+
+// Criaturas con nivel de peligro mayor que 8
+db.criaturas.find({ nivel_peligro: { $gt: 8 } });
