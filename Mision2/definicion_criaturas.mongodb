@@ -1,0 +1,50 @@
+use("bestiario");
+
+// Eliminar la colección si ya existe
+db.criaturas.drop();
+
+// Crear colección con validación JSON Schema
+db.createCollection("criaturas", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: [
+        "nombre",
+        "habitat",
+        "nivel_peligro",
+        "es_legendaria",
+        "habilidades",
+        "ficha_veterinaria",
+        "id_guardian"
+      ],
+      properties: {
+        nombre: { bsonType: "string" },
+        habitat: { bsonType: "string" },
+        nivel_peligro: {
+          bsonType: "int",
+          minimum: 1,
+          maximum: 10
+        },
+        es_legendaria: { bsonType: "bool" },
+        habilidades: {
+          bsonType: "array",
+          minItems: 1,
+          uniqueItems: true,
+          items: { bsonType: "string" }
+        },
+        ficha_veterinaria: {
+          bsonType: "object",
+          required: ["salud", "ultima_revision"],
+          properties: {
+            salud: {
+              bsonType: "string",
+              enum: ["Óptima", "Regular", "Crítica"]
+            },
+            ultima_revision: { bsonType: "date" }
+          }
+        },
+        id_guardian: { bsonType: "objectId" }
+      }
+    }
+  }
+});
