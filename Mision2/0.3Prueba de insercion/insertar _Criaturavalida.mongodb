@@ -1,0 +1,21 @@
+use("bestiario");
+
+// Buscar el guardián válido insertado antes
+const guard = db.guardianes.findOne({ nombre: "Eldrin" });
+
+if (guard) {
+  db.criaturas.insertOne({
+    nombre: "Fénix Dorado",
+    habitat: "Cielos Sagrados",
+    nivel_peligro: 9,
+    es_legendaria: true,
+    habilidades: ["renacer", "fuego purificador"],
+    ficha_veterinaria: {
+      salud: "Óptima",
+      ultima_revision: new Date()
+    },
+    id_guardian: guard._id
+  });
+} else {
+  print("❌ No se encontró el guardián Eldrin. Inserta primero el guardián válido.");
+}

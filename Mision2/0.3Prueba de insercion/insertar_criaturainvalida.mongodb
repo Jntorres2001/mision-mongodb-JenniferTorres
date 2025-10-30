@@ -1,0 +1,21 @@
+use("bestiario");
+
+// Buscar el guardián válido
+const guard = db.guardianes.findOne({ nombre: "Eldrin" });
+
+// Inserción inválida: faltan campos y valores incorrectos
+if (guard) {
+  db.criaturas.insertOne({
+    nombre: "Gólem de Hielo",
+    habitat: "Cuevas Glaciares",
+    nivel_peligro: 11, // ❌ fuera del rango (1–10)
+    es_legendaria: "sí", // ❌ debería ser boolean
+    habilidades: [], // ❌ lista vacía, no cumple minItems
+    ficha_veterinaria: {
+      ultima_revision: new Date() // ❌ falta "salud"
+    },
+    id_guardian: guard._id
+  });
+} else {
+  print("❌ No se encontró el guardián Eldrin. Inserta primero el guardián válido.");
+}

@@ -1,10 +1,10 @@
 use("bestiario");
 
-// Guardián válido
+// Inserción de un guardián válido
 db.guardianes.insertOne({
   nombre: "Eldrin",
   rango: "Maestro",
-  password_acceso: "Clave123",
+  password_acceso: "Clave1234",
   nivel: 45,
   inventario: [
     { nombre_item: "Espada de Luz", cantidad: 1 },

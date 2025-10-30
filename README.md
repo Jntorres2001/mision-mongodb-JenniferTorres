@@ -110,7 +110,75 @@ Esto mejora el rendimiento en consultas simples y mantiene la estructura compact
 * Un guardián puede tener muchas criaturas, y guardarlas dentro del mismo documento haría que creciera demasiado.
 * Las criaturas se consultan y actualizan de forma independiente.
 * Permite escalar mejor, mantener consistencia y evitar duplicación de datos.
+## Resultados de prueba de insercion 
 
+### 1. Insertar criatura valida
+
+
+![Vista de MongoDB Compass](./capturas/insetarcriatura(valida).png)
+La criatura cumple con todos los requisitos del JSON Schema:
+
+   * Contiene todos los campos requeridos: nombre, habitat, nivel_peligro, es_legendaria, habilidades, ficha_veterinaria, id_guardian.
+
+  * nivel_peligro es un número entre 1 y 10.
+
+  * es_legendaria es un booleano (true).
+
+  * habilidades es un array con al menos un elemento.
+
+  * ficha_veterinaria incluye los campos salud (con valor dentro del enum "Óptima", "Regular", "Crítica") y ultima_revision con tipo date.
+
+  * id_guardian tiene un ObjectId válido que referencia a un guardián existente.
+
+ Resultado: Inserción correcta.
+
+ ---
+### 2. Insertar criatura invalida
+
+![Vista de MongoDB Compass](./capturas/insetarcriatura(invalida).png)
+
+La inserción falla debido a múltiples violaciones del JSON Schema:
+
+  * nivel_peligro tiene valor 11, que excede el máximo permitido de 10.
+
+ * es_legendaria tiene el valor "sí", que no es booleano.
+
+ * El arreglo habilidades está vacío, violando la regla minItems: 1.
+
+ * En ficha_veterinaria falta el campo obligatorio salud.
+
+ Resultado esperado: Document failed validation.
+
+---
+
+### 3. Insertar guardian valido
+![Vista de MongoDB Compass](./capturas/insertarguardian(valido).png)
+El documento cumple con todas las validaciones del JSON Schema:
+
+  - rango pertenece al enum permitido ("Maestro").
+
+  - password_acceso contiene al menos una mayúscula y un número, cumpliendo el regex.
+
+  - El campo nivel está dentro del rango 1–99.
+
+  El campo inventario tiene un array de objetos con los campos requeridos (nombre_item, cantidad).
+
+ Resultado: Inserción exitosa.
+ 
+ ---
+### 4.  Insertar guardian invalido
+
+![Vista de MongoDB Compass](./capturas/insertarguardian(invalido).png)
+
+El documento no pasa la validación del schema porque:
+
+  * rango tiene el valor "Novato", que no existe en el enum permitido (Aprendiz, Maestro, Gran Maestro).
+
+  * password_acceso no cumple el patrón regex, ya que no contiene ninguna mayúscula ni número.
+
+   Resultado esperado: Document failed validation.
+
+---
 ## Conclusión 
 La validación con JSON Schema y el diseño adecuado de relaciones (embebidas y referenciadas) ayudan a que el bestiario sea más sólido, confiable y fácil de mantener.
 Con estas reglas, cada colección actúa como un módulo seguro, evitando datos corruptos y garantizando coherencia entre guardianes y criaturas.
