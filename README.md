@@ -62,4 +62,55 @@ cd mision-mongodb-jennifer
 - Tipos de NoSQL: Clave-Valor, Columnar, Grafo; útiles en escenarios específicos como mensajería rápida o redes sociales.
 
 - Casos de estudio: Netflix y Amazon usan MongoDB para catálogos con datos heterogéneos y consultas rápidas.
+------
 
+
+#  Misión 2 - Validación con JSON Schema
+
+En esta misión se implementan validaciones a nivel de base de datos
+para las colecciones `guardianes` y `criaturas` del bestiario.
+
+- Se aplican restricciones con JSON Schema.
+- Se modelan relaciones 1-1 (ficha veterinaria embebida)
+  y 1-N (criaturas referenciadas con guardianes).
+- Se incluyen pruebas de inserciones válidas e inválidas.
+
+## 1. Validación de datos a nivel de Base de Datos
+
+* Implementar la validación directamente en la base de datos (con JSON Schema) es mejor que hacerlo solo en el backend porque:
+* Protege los datos desde la fuente: evita que se guarden datos erróneos incluso si el código de la aplicación tiene fallos.
+* Mantiene la integridad: todas las aplicaciones que usen la base (no solo una API) estarán obligadas a cumplir las mismas reglas.
+* Reduce errores humanos: no depende del programador que siempre valide correctamente.
+* Aumenta la seguridad y consistencia de la información en la base de datos.
+* En resumen, la base de datos se vuelve un “guardían de integridad” que protege los datos sin importar desde dónde se insertan.
+
+## 2. Relación 1 a 1 – Ficha Veterinaria Embebida
+
+Se eligió modelar la ficha_veterinaria como un documento embebido dentro de la colección criaturas porque:
+
+* Cada criatura solo tiene una ficha veterinaria.
+* La información de la ficha solo tiene sentido junto con la criatura, no por separado.
+* Facilita la lectura, ya que no hay que hacer búsquedas adicionales para mostrar los datos veterinarios.
+Se preferiría una relación referenciada (en otra colección) si:
+* Las fichas se gestionaran de forma independiente.
+* O si una ficha veterinaria pudiera pertenecer a varias criaturas (por ejemplo, un historial médico compartido).
+
+## 3. Relaciones 1 a N
+🔹Guardián → Inventario (Embebida)
+
+El inventario se modeló dentro del documento del guardián porque:
+* Es información pequeña y directamente relacionada.
+* No se necesita consultar los ítems por separado.
+* Se accede fácilmente a todo el inventario sin hacer joins ni referencias.
+
+Esto mejora el rendimiento en consultas simples y mantiene la estructura compacta.
+
+🔹 Guardián → Criaturas (Referenciada)
+* En cambio, la relación entre guardianes y criaturas se modeló referenciada (con id_guardian) porque:
+* Un guardián puede tener muchas criaturas, y guardarlas dentro del mismo documento haría que creciera demasiado.
+* Las criaturas se consultan y actualizan de forma independiente.
+* Permite escalar mejor, mantener consistencia y evitar duplicación de datos.
+
+## Conclusión 
+La validación con JSON Schema y el diseño adecuado de relaciones (embebidas y referenciadas) ayudan a que el bestiario sea más sólido, confiable y fácil de mantener.
+Con estas reglas, cada colección actúa como un módulo seguro, evitando datos corruptos y garantizando coherencia entre guardianes y criaturas.
