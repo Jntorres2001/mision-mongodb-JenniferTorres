@@ -1,0 +1,12 @@
+
+// Criatura inválida (ficha veterinaria sin salud)
+db.criaturas.insertOne({
+  nombre: "Gólem de Hielo",
+  habitat: "Cuevas Glaciares",
+  nivel_peligro: 6,
+  es_legendaria: false,
+  habilidades: [],
+  ficha_veterinaria: { ultima_revision: new Date() },
+  id_guardian: guard._id
+});
+// ❗ Error esperado: document fails validation

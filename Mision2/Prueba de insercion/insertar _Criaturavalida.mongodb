@@ -1,0 +1,13 @@
+// Criatura válida
+db.criaturas.insertOne({
+  nombre: "Fénix Dorado",
+  habitat: "Cielos Sagrados",
+  nivel_peligro: 9,
+  es_legendaria: true,
+  habilidades: ["renacer", "fuego purificador"],
+  ficha_veterinaria: {
+    salud: "Óptima",
+    ultima_revision: new Date()
+  },
+  id_guardian: guard._id
+});

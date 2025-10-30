@@ -1,0 +1,13 @@
+use("bestiario");
+
+// Guardián válido
+db.guardianes.insertOne({
+  nombre: "Eldrin",
+  rango: "Maestro",
+  password_acceso: "Clave123",
+  nivel: 45,
+  inventario: [
+    { nombre_item: "Espada de Luz", cantidad: 1 },
+    { nombre_item: "Poción de Energía", cantidad: 3 }
+  ]
+});
