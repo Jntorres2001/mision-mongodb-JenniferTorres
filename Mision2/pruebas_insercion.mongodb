@@ -1,0 +1,51 @@
+use("bestiario");
+
+// Guardián válido
+db.guardianes.insertOne({
+  nombre: "Eldrin",
+  rango: "Maestro",
+  password_acceso: "Clave123",
+  nivel: 45,
+  inventario: [
+    { nombre_item: "Espada de Luz", cantidad: 1 },
+    { nombre_item: "Poción de Energía", cantidad: 3 }
+  ]
+});
+
+// Guardián inválido (falla por rango y contraseña sin número)
+db.guardianes.insertOne({
+  nombre: "Lyra",
+  rango: "Novato", // ❌ no está en el enum
+  password_acceso: "password", // ❌ no cumple el patrón
+  inventario: [{ nombre_item: "Varita", cantidad: 2 }]
+});
+// ❗ Error esperado: document fails validation
+
+// Buscar el ID del guardián válido
+var guard = db.guardianes.findOne({ nombre: "Eldrin" });
+
+// Criatura válida
+db.criaturas.insertOne({
+  nombre: "Fénix Dorado",
+  habitat: "Cielos Sagrados",
+  nivel_peligro: 9,
+  es_legendaria: true,
+  habilidades: ["renacer", "fuego purificador"],
+  ficha_veterinaria: {
+    salud: "Óptima",
+    ultima_revision: new Date()
+  },
+  id_guardian: guard._id
+});
+
+// Criatura inválida (ficha veterinaria sin salud)
+db.criaturas.insertOne({
+  nombre: "Gólem de Hielo",
+  habitat: "Cuevas Glaciares",
+  nivel_peligro: 6,
+  es_legendaria: false,
+  habilidades: [],
+  ficha_veterinaria: { ultima_revision: new Date() },
+  id_guardian: guard._id
+});
+// ❗ Error esperado: document fails validation
